@@ -1,0 +1,72 @@
+﻿@model PagedList.IPagedList<InsuranceApp.Models.LossType>
+@using PagedList.Mvc;
+
+<h2>Loss Types</h2>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+    @{
+        ViewBag.Title = "LossTypes";
+    }
+
+    <style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        Welcome
+        <b>@HttpContext.Current.User.Identity.Name</b>
+        <br />
+        <br />
+        @using (Html.BeginForm("Logout", "Home", FormMethod.Post))
+        {
+            <a href="javascript:;" onclick="document.forms[0].submit();">Logout</a>
+        }
+        <table class="table">
+            <tr>
+                <th>
+                   LossType Code
+                </th>
+                <th>
+                    LossTypeDescription
+                </th>
+                <th>
+                    Active
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LossTypeCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LossTypeDescription)
+                    </td>
+                    <td>
+                        @item.Active
+                    </td>                    
+                </tr>
+            }
+
+        </table>
+        <br />
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("LossTypes",
+            new { page }))
+    </div>
+
+</body>
+</html>
